@@ -22,17 +22,17 @@ parsed_nodes = []
 parsed_edges = []
 
 for n in nodes :
-	if (len(n) > 100) :
-		parsed_nodes.append(n)
-		print n[len(n)-1]
+    if (len(n) > 100) :
+        parsed_nodes.append(n)
+        print n[len(n)-1]
 	
 print "Total nodes:"
 print len(parsed_nodes)
 
 for c in edges :
-	if (len(c) > 100) :
-		parsed_edges.append(c)
-		print c[len(c)-1]
+    if (len(c) > 100) :
+        parsed_edges.append(c)
+        print c[len(c)-1]
 	
 print "Total edges:"
 print len(parsed_edges)
@@ -45,4 +45,4 @@ cv2.drawContours(nodemask, parsed_nodes, -1, (255,255,255), 3)
 cv2.drawContours(edgemask, parsed_edges, -1, (255,255,255), 3)
 	
 cv2.imwrite('output.png',edgemask) 
-cv2.imwrite('output2.png',nodemask) 
+cv2.imwrite('output2.png',nodemask)
