@@ -15,12 +15,12 @@ def maskNodesAndEdges(im):
     node_mask = cv2.bitwise_and(allmask,cv2.bitwise_not(edge_mask))
     return (node_mask, edge_mask)
 
-def parseContours(in_mask):
+def parseContours(in_mask, min_points):
     parsed = []
     _, found, _ = cv2.findContours(in_mask,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
 
     for el in found:
-        if len(el) > 100:
+        if len(el) > min_points:
             parsed.append(el)
 
     return parsed
@@ -50,10 +50,12 @@ def consolidateNodes(boxes):
 
     return unique_boxes
 
-node_mask, edge_mask = maskNodesAndEdges(cv2.imread('test4.png'))
+node_mask, edge_mask = maskNodesAndEdges(cv2.imread('test.jpg'))
 
-parsed_nodes = parseContours(node_mask)
-parsed_edges = parseContours(edge_mask)
+cv2.imwrite('debug.jpg', node_mask)
+
+parsed_nodes = parseContours(node_mask, 100)
+parsed_edges = parseContours(edge_mask, 200)
 
 edge_boxes = map(cv2.minAreaRect, parsed_edges)
 node_boxes = map(cv2.minAreaRect, parsed_nodes)
@@ -67,10 +69,10 @@ node_points = map(np.int0, map(cv2.boxPoints, node_boxes))
 cv2.drawContours(node_mask, edge_points, -1, (255,255,255), 3)
 cv2.drawContours(node_mask, node_points, -1, (255,255,255), 3)
 
-cv2.imwrite('output.png',edge_mask) 
-cv2.imwrite('output2.png',node_mask)
+cv2.imwrite('output.jpg',edge_mask) 
+cv2.imwrite('output.jpg',node_mask)
 
 print "Total nodes:"
-print len(parsed_nodes)
+print len(node_boxes)
 print "Total edges:"
-print len(parsed_edges)
+print len(edge_boxes)
