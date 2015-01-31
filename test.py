@@ -17,7 +17,7 @@ def edge_node_mask(im):
 
 def parse_contours(in_mask):
     parsed = []
-    found, _ = cv2.findContours(in_mask,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
+    _, found, _ = cv2.findContours(in_mask,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
 
     for el in found:
         if len(el) > 100:
@@ -25,21 +25,48 @@ def parse_contours(in_mask):
 
     return parsed
 
-(node_mask, edge_mask) = edge_node_mask(cv2.imread('test4.png'))
+def consolidate_nodes(boxes):
+    def area(box):
+        return box[1][0] * box[1][1]
+    l = len(boxes)
+    matched = map(lambda x: False, range(l))
+    unique_boxes = []
+    for i in range(l):
+        if (matched[i] == True):
+            continue
+        for j in range(i + 1, l):
+            if (matched[j] == True):
+                continue
+            if (cv2.rotatedRectangleIntersection(boxes[i],boxes[j])[0] == 2):
+                matched[j] = matched[i] = True
+                if (area(boxes[i]) < area(boxes[j])):
+                    unique_boxes.append(boxes[j])
+                else:
+                    unique_boxes.append(boxes[i])
+                break
+    return unique_boxes
+
+node_mask, edge_mask = edge_node_mask(cv2.imread('test4.png'))
 
 parsed_nodes = parse_contours(node_mask)
+parsed_edges = parse_contours(edge_mask)
+
+edge_boxes = map(cv2.minAreaRect, parsed_edges)
+node_boxes = map(cv2.minAreaRect, parsed_nodes)
+
+node_boxes = consolidate_nodes(node_boxes)
+
+# DEBUG
+edge_points = map(np.int0, map(cv2.boxPoints, edge_boxes))
+node_points = map(np.int0, map(cv2.boxPoints, node_boxes))
+
+cv2.drawContours(node_mask, edge_points, -1, (255,255,255), 3)
+cv2.drawContours(node_mask, node_points, -1, (255,255,255), 3)
+
+cv2.imwrite('output.png',edge_mask) 
+cv2.imwrite('output2.png',node_mask)
 
 print "Total nodes:"
 print len(parsed_nodes)
-
-parsed_edges = parse_contours(edge_mask)
-	
 print "Total edges:"
 print len(parsed_edges)
-
-
-cv2.drawContours(node_mask, parsed_nodes, -1, (255,255,255), 3)
-cv2.drawContours(edge_mask, parsed_edges, -1, (255,255,255), 3)
-	
-cv2.imwrite('output.png',edge_mask) 
-cv2.imwrite('output2.png',node_mask)
