@@ -12,8 +12,17 @@ im = cv2.cvtColor(im, cv2.COLOR_BGR2HSV)
 
 edgemask = cv2.bitwise_or(cv2.inRange(im,red_lower_bound1,red_upper_bound1),cv2.inRange(im,red_lower_bound2,red_upper_bound2))
 
-_,allmask = cv2.threshold(im_grey,191,255,cv2.THRESH_BINARY_INV)
-nodemask = cv2.bitwise_and(cv2.threshold(im_grey,191,255,cv2.THRESH_BINARY_INV),cv2.bitwise_not(edgemask))
+(_,allmask) = cv2.threshold(im_grey,90,255,cv2.THRESH_BINARY_INV)
+nodemask = cv2.bitwise_and(allmask,cv2.bitwise_not(edgemask))
+
+#contours, hierarchy = cv2.findContours(nodemask,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
+
+#cv2.drawContours(nodemask, contours, -1, (255,100,100), 3)
+#lines = cv2.HoughLinesP(nodemask,20,1,1)
+
+#print len(lines)
+
+
 
 cv2.imwrite('output.png',edgemask) 
 cv2.imwrite('output2.png',nodemask) 
