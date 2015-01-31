@@ -18,7 +18,6 @@ def edge_node_mask(im):
 (node_mask, edge_mask) = edge_node_mask(cv2.imread('test4.png'))
 
 nodes, hierarchy = cv2.findContours(node_mask,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
-cv2.drawContours(node_mask, nodes, -1, (255,100,100), 3)
 edges, hierarchy = cv2.findContours(edge_mask,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
 
 parsed_nodes = []
