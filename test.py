@@ -17,24 +17,22 @@ def edge_node_mask(im):
 
 (node_mask, edge_mask) = edge_node_mask(cv2.imread('test4.png'))
 
-nodes, hierarchy = cv2.findContours(node_mask,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
-edges, hierarchy = cv2.findContours(edge_mask,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
+def parse_contours(in_mask):
+    parsed = []
+    found, _ = cv2.findContours(in_mask,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
 
-parsed_nodes = []
-parsed_edges = []
+    for el in found:
+        if len(el) > 100:
+            parsed.append(el)
 
-for n in nodes :
-    if (len(n) > 100) :
-        parsed_nodes.append(n)
-        print n[len(n)-1]
-	
+    return parsed
+
+parsed_nodes = parse_contours(node_mask)
+
 print "Total nodes:"
 print len(parsed_nodes)
 
-for c in edges :
-    if (len(c) > 100) :
-        parsed_edges.append(c)
-        print c[len(c)-1]
+parsed_edges = parse_contours(edge_mask)
 	
 print "Total edges:"
 print len(parsed_edges)
