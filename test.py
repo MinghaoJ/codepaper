@@ -1,7 +1,7 @@
 import numpy as np
 import cv2
 
-def edge_node_mask(im):
+def maskNodesAndEdges(im):
     red_lower_bound1 = np.array([0,25,90])
     red_upper_bound1 = np.array([10,255,191])
     red_lower_bound2 = np.array([170,25,90])
@@ -15,7 +15,7 @@ def edge_node_mask(im):
     node_mask = cv2.bitwise_and(allmask,cv2.bitwise_not(edge_mask))
     return (node_mask, edge_mask)
 
-def parse_contours(in_mask):
+def parseContours(in_mask):
     parsed = []
     _, found, _ = cv2.findContours(in_mask,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
 
@@ -25,7 +25,7 @@ def parse_contours(in_mask):
 
     return parsed
 
-def consolidate_nodes(boxes):
+def consolidateNodes(boxes):
     def area(box):
         return box[1][0] * box[1][1]
     l = len(boxes)
@@ -46,15 +46,15 @@ def consolidate_nodes(boxes):
                 break
     return unique_boxes
 
-node_mask, edge_mask = edge_node_mask(cv2.imread('test4.png'))
+node_mask, edge_mask = maskNodesAndEdges(cv2.imread('test4.png'))
 
-parsed_nodes = parse_contours(node_mask)
-parsed_edges = parse_contours(edge_mask)
+parsed_nodes = parseContours(node_mask)
+parsed_edges = parseContours(edge_mask)
 
 edge_boxes = map(cv2.minAreaRect, parsed_edges)
 node_boxes = map(cv2.minAreaRect, parsed_nodes)
 
-node_boxes = consolidate_nodes(node_boxes)
+node_boxes = consolidateNodes(node_boxes)
 
 # DEBUG
 edge_points = map(np.int0, map(cv2.boxPoints, edge_boxes))
