@@ -15,8 +15,6 @@ def edge_node_mask(im):
     node_mask = cv2.bitwise_and(allmask,cv2.bitwise_not(edge_mask))
     return (node_mask, edge_mask)
 
-(node_mask, edge_mask) = edge_node_mask(cv2.imread('test4.png'))
-
 def parse_contours(in_mask):
     parsed = []
     found, _ = cv2.findContours(in_mask,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
@@ -26,6 +24,8 @@ def parse_contours(in_mask):
             parsed.append(el)
 
     return parsed
+
+(node_mask, edge_mask) = edge_node_mask(cv2.imread('test4.png'))
 
 parsed_nodes = parse_contours(node_mask)
 
