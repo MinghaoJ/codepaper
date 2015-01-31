@@ -28,14 +28,17 @@ def parse_contours(in_mask):
 def consolidate_nodes(boxes):
     def area(box):
         return box[1][0] * box[1][1]
+
     l = len(boxes)
     matched = map(lambda x: False, range(l))
     unique_boxes = []
+
     for i in range(l):
-        if (matched[i] == True):
+        if (matched[i]):
             continue
+
         for j in range(i + 1, l):
-            if (matched[j] == True):
+            if (matched[j]):
                 continue
             if (cv2.rotatedRectangleIntersection(boxes[i],boxes[j])[0] == 2):
                 matched[j] = matched[i] = True
@@ -44,6 +47,7 @@ def consolidate_nodes(boxes):
                 else:
                     unique_boxes.append(boxes[i])
                 break
+
     return unique_boxes
 
 node_mask, edge_mask = edge_node_mask(cv2.imread('test4.png'))
