@@ -1,6 +1,7 @@
 import numpy as np
 import cv2
 import GraphCapture
+import ocr
 
 class Node:
     
@@ -8,15 +9,16 @@ class Node:
         self.function = function
         self.value = None
         self.name = name
-        self.position = box[1]
+        self.text = None
+        self.box = box
         self.inputs = []
 
-class edge:
+class Edge:
 
     def __init__(self, n1, n2):
         self.links = [n1, n2]
 
-(node_boxes, edge_boxes) = GraphCapture.getElements('test.jpg', 100, 200)
+(node_boxes, edge_boxes, imgFile) = GraphCapture.getElements('test.jpg', 100, 200)
 
 edges = []
 for e in edge_boxes:
@@ -29,11 +31,12 @@ for e in edge_boxes:
             else:
                 n1 = n
         if(n1 and n2):
-            edges.append(edge(n1,n2))
+            edges.append(Edge(n1,n2))
             break
 
 def addInputs(node):
     n = Node(None, '', node)
+    n.text = ocr.parseText(n, imgFile)
     n.inputs = map(addInputs, makeBranches(node))
     return n
     
