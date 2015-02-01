@@ -1,6 +1,6 @@
 def seekInputNodes(node)
     inputNodes = []
-    inputNames = [A,B,C,D,E,F,G]
+    inputNames = ['A','B','C','D','E','F','G']
     if len(node.inputs) == 0:
         inputNodes.append(node)
     else:
