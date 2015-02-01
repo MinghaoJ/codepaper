@@ -17,29 +17,21 @@ class Edge:
     def __init__(self, n1, n2):
         self.links = [n1, n2]
 
-(node_boxes, edge_boxes, imgFile) = GraphCapture.getElements('image.jpg', 100, 200)
 
-edges = []
-for e in edge_boxes:
-    n1 = None
-    n2 = None
-    for n in node_boxes:
-        if(cv2.rotatedRectangleIntersection(n,e)[0] == 1):
-            if(n1):
-                n2 = n
-            else:
-                n1 = n
-        if(n1 and n2):
-            edges.append(Edge(n1,n2))
-            break
 
 def addInputs(node):
+    global node_boxes
+    global edge_boxes
+    global imgFile
     n = Node(None, '', node)
     n.text = ocr.parseText(n, imgFile)
     n.inputs = map(addInputs, makeBranches(node))
     return n
     
 def makeBranches(node):
+    global node_boxes
+    global edge_boxes
+    global imgFile
     branches = []
     for e in edges:
         if (node == e.links[0] and node[0][0] > e.links[1][0][0]):
@@ -49,6 +41,9 @@ def makeBranches(node):
     return branches
 
 def getRightMostNode():
+    global node_boxes
+    global edge_boxes
+    global imgFile
     max = node_boxes[0][0][0]
     maxNode = None
     for x in range(1,len(node_boxes)):
@@ -58,4 +53,22 @@ def getRightMostNode():
     return maxNode
     
 def makeGraph():
+    global node_boxes
+    global edge_boxes
+    global imgFile
+    global edges
+    (node_boxes, edge_boxes, imgFile) = GraphCapture.getElements('image.jpg', 100, 200)
+    edges = []
+    for e in edge_boxes:
+        n1 = None
+        n2 = None
+        for n in node_boxes:
+            if(cv2.rotatedRectangleIntersection(n,e)[0] == 1):
+                if(n1):
+                    n2 = n
+                else:
+                    n1 = n
+            if(n1 and n2):
+                edges.append(Edge(n1,n2))
+                break
     return addInputs(getRightMostNode())

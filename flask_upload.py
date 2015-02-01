@@ -4,7 +4,7 @@ from werkzeug import secure_filename
 import GraphParse as gp
 import functions as fn
 import eval
-from app import app
+#from app import app
 
 path = os.getcwd()
 UPLOAD_FOLDER = path + '/uploads'
@@ -19,7 +19,7 @@ def allowed_file(filename):
 
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
-    if request.method =='POST': 
+    if request.method =='POST':
         file = request.files['file']
         if file and allowed_file(file.filename):
             filename = secure_filename("image.jpg")
@@ -28,7 +28,7 @@ def upload_file():
             head = gp.makeGraph()
             nodes = eval.seekInputNodes(head)
             return render_template('input.html', val='value', nodes=nodes)
-    return send_from_directory(path, 'index.html')
+    return send_from_directory(path, 'static/index.html')
    
 @app.route('/input', methods=['GET', 'POST'])
 def input():
