@@ -1,7 +1,17 @@
+def seekInputNodes(node)
+    inputNodes = []
+    if len(node.inputs) == 0:
+        inputNodes.append(node)
+    else:
+        map(seekInputs, node.inputs)
+    return inputNodes
+
+def setInputs(inputs)
+    for i in range(len(inputs)):
+        inputNodes[i].value = inputs[i]
+
 def evaluate(node):
     if len(node.inputs) == 0:
-        if !node.value
-            self.value = input("Enter a value for " + node.name + " ")
-        return self.value
+        return node.value
     else:
         return node.function(map(evaluate, node.inputs))
