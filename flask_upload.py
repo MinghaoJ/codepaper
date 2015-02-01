@@ -22,18 +22,24 @@ def upload_file():
     if request.method =='POST': 
         file = request.files['file']
         if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
+            filename = secure_filename("image.jpg")
             print filename
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             head = gp.makeGraph()
-            eval.evaluate(head)
+            nodes = eval.seekInputNodes(head)
+            return render_template('input.html', val='value', nodes=nodes)
     return send_from_directory(path, 'index.html')
-    
+   
+@app.route('/input', methods=['GET', 'POST'])
+def input():
+    head = gp.makeGraph()
+    nodes = eval.seekInputNodes(head)
+    input = []
+    for node in nodes:
+        input.append(request.form["input_" + node.name])
+    eval.setInputs(input, nodes)
+    return eval.evaluate(head)
 def uploaded_file(filename):
     return send_from_dictionary(app.config['UPLOAD_FOLDER'], filename)
 
-def index(nodes):
-    for nodes in 
-    return render_template('subindex.html', val='value')
-    
 app.run()

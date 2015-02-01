@@ -9,7 +9,7 @@ def seekInputNodes(node)
         inputNodes[i].name = inputNames[i]
     return inputNodes
 
-def setInputs(inputs)
+def setInputs(inputs, inputsNodes)
     for i in range(len(inputs)):
         inputNodes[i].value = inputs[i]
 

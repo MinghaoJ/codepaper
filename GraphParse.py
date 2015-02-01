@@ -1,7 +1,6 @@
 import numpy as np
 import cv2
 import GraphCapture
-import ocr
 
 class Node:
     
@@ -18,7 +17,7 @@ class Edge:
     def __init__(self, n1, n2):
         self.links = [n1, n2]
 
-(node_boxes, edge_boxes, imgFile) = GraphCapture.getElements('test.jpg', 100, 200)
+(node_boxes, edge_boxes, imgFile) = GraphCapture.getElements('image.jpg', 100, 200)
 
 edges = []
 for e in edge_boxes:

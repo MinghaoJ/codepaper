@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <img src="{{ img_src }}"></img>
+    <form action="/input" method="post">
+        {% for node in nodes %}
+            <label for="input_{{node.name}}">Input Value {{node.name}}</label>
+            <input type="text" value={{val}} id="input_{{node.name}}">
+        {% endfor %}
+    <input type="submit">
+    </form>
+</body>
