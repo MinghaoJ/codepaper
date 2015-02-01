@@ -74,7 +74,7 @@ def makeGraph():
     
     inputNodes = eval.seekInputNodes(head)
     
-    inputNames = ['A','B','C','D','E','F','G']
+    inputNames = ['A','B','C','D','E','M','N','X']
     for i in range(len(inputNodes)):
         inputNodes[i].name = inputNames[i]
         cv2.putText(graph, inputNames[i], (int(inputNodes[i].box[0][0]),int(inputNodes[i].box[0][1],)), cv2.FONT_HERSHEY_SIMPLEX, 6, (0,0,255),10)
