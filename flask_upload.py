@@ -28,6 +28,8 @@ def upload_file():
             head = gp.makeGraph()
             eval.inputNodes = []
             nodes = eval.seekInputNodes(head)
+            eval.functionNodes = []
+            f_nodes = eval.seekFunctionNodes(head)
             print nodes
             return render_template('input.html', val='value', nodes=nodes)
     return send_from_directory(path, 'static/index.html')
@@ -37,6 +39,8 @@ def input():
     head = gp.makeGraph()
     eval.inputNodes = []
     nodes = eval.seekInputNodes(head)
+    eval.functionNodes = []
+    f_nodes = eval.seekFunctionNodes(head)
     inp = []
     for node in nodes:
         if "input_" + node.name in request.form:
