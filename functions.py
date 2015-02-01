@@ -18,3 +18,12 @@ def fact(args):
     for i in range(1,args[0]+1):
         out *= i
     return out
+
+fun_dict = {
+    "neg": negate,
+    "add": add,
+    "sub": sub,
+    "mul": mul,
+    "div": div,
+    "fact": fact
+}
