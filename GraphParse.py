@@ -80,8 +80,6 @@ def makeGraph():
     for i in range(len(inputNodes)):
         inputNodes[i].name = inputNames[i]
         cv2.putText(graph, inputNames[i], (int(inputNodes[i].box[0][0]),int(inputNodes[i].box[0][1],)), cv2.FONT_HERSHEY_SIMPLEX, 6, (0,0,255),10)
-    cv2.imwrite('static/names.jpg', graph) 
-
     for i in range(len(functionNodes)):
         functionNodes[i].name = functionNames[i]
         cv2.putText(graph, functionNames[i], (int(functionNodes[i].box[0][0]),int(functionNodes[i].box[0][1],)), cv2.FONT_HERSHEY_SIMPLEX, 6, (255,0,0),10)
