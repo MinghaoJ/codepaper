@@ -12,6 +12,7 @@ ALLOWED_EXTENSIONS = set(['png', 'jpg','jpeg'])
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['PROPAGATE_EXCEPTIONS'] = True
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -27,6 +28,7 @@ def upload_file():
             file.save(os.path.join(path, filename))
             head = gp.makeGraph()
             nodes = eval.seekInputNodes(head)
+            print nodes
             return render_template('input.html', val='value', nodes=nodes)
     return send_from_directory(path, 'static/index.html')
    
@@ -34,10 +36,10 @@ def upload_file():
 def input():
     head = gp.makeGraph()
     nodes = eval.seekInputNodes(head)
-    input = []
+    inp = []
     for node in nodes:
-        input.append(request.form["input_" + node.name])
-    eval.setInputs(input, nodes)
+        inp.append(request.form["input_" + node.name])
+    eval.setInputs(inp)
     return eval.evaluate(head)
 def uploaded_file(filename):
     return send_from_dictionary(app.config['UPLOAD_FOLDER'], filename)

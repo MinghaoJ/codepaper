@@ -1,15 +1,20 @@
 def seekInputNodes(node):
-    inputNodes = []
+    global inputNodes
+    try:
+        inputNodes
+    except NameError:
+        inputNodes = []
     inputNames = ['A','B','C','D','E','F','G']
     if len(node.inputs) == 0:
         inputNodes.append(node)
     else:
-        map(seekInputs, node.inputs)
+        map(seekInputNodes, node.inputs)
     for i in range(len(inputNodes)):
         inputNodes[i].name = inputNames[i]
     return inputNodes
 
-def setInputs(inputs, inputsNodes):
+def setInputs(inputs):
+    global inputNodes
     for i in range(len(inputs)):
         inputNodes[i].value = inputs[i]
 
