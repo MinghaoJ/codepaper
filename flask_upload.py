@@ -5,7 +5,6 @@ import GraphParse as gp
 import functions as fn
 import eval
 #from app import app
-
 path = os.getcwd()
 UPLOAD_FOLDER = path + '/uploads'
 ALLOWED_EXTENSIONS = set(['png', 'jpg','jpeg'])
@@ -35,12 +34,15 @@ def upload_file():
 @app.route('/input', methods=['GET', 'POST'])
 def input():
     head = gp.makeGraph()
+    eval.inputNodes = []
     nodes = eval.seekInputNodes(head)
     inp = []
     for node in nodes:
-        inp.append(request.form["input_" + node.name])
-    eval.setInputs(inp)
-    return eval.evaluate(head)
+        if "input_" + node.name in request.form:
+            inp.append(request.form["input_" + node.name])
+    return eval.evaluate(head, eval.setInputs(inp))
+
+
 def uploaded_file(filename):
     return send_from_dictionary(app.config['UPLOAD_FOLDER'], filename)
 

@@ -5,7 +5,7 @@
     <form action="/input" method="post">
         {% for node in nodes %}
             <label for="input_{{node.name}}">Input Value {{node.name}}</label>
-            <input type="text" value={{val}} id="input_{{node.name}}">
+            <input type="text" id="input_{{node.name}}" name="input_{{node.name}}">
         {% endfor %}
     <input type="submit">
     </form>
