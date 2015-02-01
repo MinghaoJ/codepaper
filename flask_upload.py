@@ -26,6 +26,7 @@ def upload_file():
             print filename
             file.save(os.path.join(path, filename))
             head = gp.makeGraph()
+            eval.inputNodes = []
             nodes = eval.seekInputNodes(head)
             print nodes
             return render_template('input.html', val='value', nodes=nodes)

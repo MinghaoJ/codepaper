@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <body>
-    <img src="{{ img_src }}"></img>
+    <img src="static/names.jpg" width="1000px"></img>
     <form action="/input" method="post">
         {% for node in nodes %}
             <label for="input_{{node.name}}">Input Value {{node.name}}</label>

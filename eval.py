@@ -51,10 +51,4 @@ def evaluate(node, inp):
             if n.name == node.name:
                 return n.value
     else:
-        return add(map(lambda x: evaluate(x, inp), node.inputs))
-
-def add(args):
-    if len(args) == 1:
-        return args[0] * -1
-    else:
-        return args[0] + args[1]
+        return node.function(map(lambda x: evaluate(x, inp), node.inputs))
