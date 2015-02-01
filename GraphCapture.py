@@ -60,19 +60,15 @@ def getElements(filename, min_node_points, min_edge_points):
     edge_boxes = map(cv2.minAreaRect, parsed_edges)
     node_boxes = consolidateNodes(map(cv2.minAreaRect, parsed_nodes))
 
-    # DEBUG
     edge_points = map(np.int0, map(cv2.boxPoints, edge_boxes))
     node_points = map(np.int0, map(cv2.boxPoints, node_boxes))
 
-    cv2.drawContours(node_mask, edge_points, -1, (255,255,255), 3)
-    cv2.drawContours(node_mask, node_points, -1, (255,255,255), 3)
+    graph = cv2.imread(filename)
+    cv2.drawContours(graph, node_points, -1, (220,220,220), 10)
 
-    cv2.imwrite('output.jpg',edge_mask) 
-    cv2.imwrite('output.jpg',node_mask)
-
-    print "Total nodes:"
-    print len(node_boxes)
-    print "Total edges:"
-    print len(edge_boxes)
+    # print "Total nodes:"
+    # print len(node_boxes)
+    # print "Total edges:"
+    # print len(edge_boxes)
     
-    return (node_boxes, edge_boxes, filename)
+    return (node_boxes, edge_boxes, filename, graph)

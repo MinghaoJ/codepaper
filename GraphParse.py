@@ -1,6 +1,8 @@
 import numpy as np
 import cv2
 import GraphCapture
+import ocr
+import eval
 
 class Node:
     
@@ -16,8 +18,6 @@ class Edge:
 
     def __init__(self, n1, n2):
         self.links = [n1, n2]
-
-
 
 def addInputs(node):
     global node_boxes
@@ -57,7 +57,7 @@ def makeGraph():
     global edge_boxes
     global imgFile
     global edges
-    (node_boxes, edge_boxes, imgFile) = GraphCapture.getElements('image.jpg', 100, 200)
+    (node_boxes, edge_boxes, imgFile, graph) = GraphCapture.getElements('image.jpg', 100, 200)
     edges = []
     for e in edge_boxes:
         n1 = None
@@ -71,4 +71,7 @@ def makeGraph():
             if(n1 and n2):
                 edges.append(Edge(n1,n2))
                 break
-    return addInputs(getRightMostNode())
+    head = addInputs(getRightMostNode())
+    eval.seekInputNodes(head, graph)
+    cv2.imwrite('output.jpg', graph) 
+    return head, graph

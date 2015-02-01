@@ -13,5 +13,4 @@ def parseText(node, imgFile):
     cv2.imwrite('tmp.jpg', img_bin)
 
     print image_to_string(Image.open('tmp.jpg'), config=' -psm 10')
-    raw_input()
     return image_to_string(Image.open('tmp.jpg'), config=' -psm 10') 
