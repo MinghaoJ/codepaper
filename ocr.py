@@ -12,5 +12,4 @@ def parseText(node, imgFile):
     _,img_bin = cv2.threshold(img_grey,100,255,cv2.THRESH_BINARY)
     cv2.imwrite('tmp.jpg', img_bin)
 
-    print image_to_string(Image.open('tmp.jpg'), config=' -psm 10')
     return image_to_string(Image.open('tmp.jpg'), config=' -psm 10') 

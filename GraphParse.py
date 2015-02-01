@@ -72,6 +72,12 @@ def makeGraph():
                 edges.append(Edge(n1,n2))
                 break
     head = addInputs(getRightMostNode())
-    eval.seekInputNodes(head, graph)
-    cv2.imwrite('output.jpg', graph) 
-    return head, graph
+    
+    inputNodes = eval.seekInputNodes(head)
+    
+    inputNames = ['A','B','C','D','E','F','G']
+    for i in range(len(inputNodes)):
+        inputNodes[i].name = inputNames[i]
+        cv2.putText(graph, inputNames[i], (int(inputNodes[i].box[0][0]),int(inputNodes[i].box[0][1],)), cv2.FONT_HERSHEY_SIMPLEX, 6, (0,0,255),10)
+    cv2.imwrite('static/names.jpg', graph) 
+    return head
