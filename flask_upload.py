@@ -1,3 +1,5 @@
+import cgitb
+cgitb.enable(format='text')
 import os
 from flask import Flask, request, redirect, url_for, send_from_directory, render_template
 from werkzeug import secure_filename
@@ -12,6 +14,7 @@ ALLOWED_EXTENSIONS = set(['png', 'jpg','jpeg'])
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['PROPAGATE_EXCEPTIONS'] = True
+app.config['DEBUG'] = True
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -31,7 +34,7 @@ def upload_file():
             eval.functionNodes = []
             f_nodes = eval.seekFunctionNodes(head)
             print nodes
-            return render_template('input.html', val='value', nodes=nodes)
+            return render_template('input.html', val='value', nodes=nodes, f_nodes=f_nodes)
     return send_from_directory(path, 'static/index.html')
    
 @app.route('/input', methods=['GET', 'POST'])
@@ -42,10 +45,15 @@ def input():
     eval.functionNodes = []
     f_nodes = eval.seekFunctionNodes(head)
     inp = []
+    f_inp = []
     for node in nodes:
         if "input_" + node.name in request.form:
             inp.append(request.form["input_" + node.name])
-    return eval.evaluate(head, eval.setInputs(inp))
+    for node in f_nodes:
+        f_inp.append(request.form["input_" + node.name])
+    a = eval.evaluate(head, eval.setInputs(inp), eval.setFunctions(f_inp))
+    print "hi"
+    return str(a)
 
 
 def uploaded_file(filename):

@@ -7,6 +7,10 @@
             <label for="input_{{node.name}}">Input Value {{node.name}}</label>
             <input type="text" id="input_{{node.name}}" name="input_{{node.name}}">
         {% endfor %}
+        {% for node in f_nodes %}
+            <label for="input_{{node.name}}">Input Value {{node.name}}</label>
+            <input type="text" id="input_{{node.name}}" name="input_{{node.name}}">
+        {% endfor %}
     <input type="submit">
     </form>
 </body>

@@ -1,6 +1,6 @@
 import numpy as np
 import cv2
-import functions
+import functions as fn
 
 def seekInputNodes(node):
     global inputNodes
@@ -43,13 +43,16 @@ def setInputs(inputs):
 def setFunctions(functions):
     global functionNodes
     for i in range(len(functions)):
-        functionNodes[i].function = functions.fun_dict[functions[i]]
+        functionNodes[i].function = fn.fun_dict[functions[i]]
     return functionNodes
 
-def evaluate(node, inp):
+def evaluate(node, inp, f_inp):
     if len(node.inputs) == 0:
         for n in inp:
             if n.name == node.name:
                 return n.value
     else:
-        return node.function(map(lambda x: evaluate(x, inp), node.inputs))
+        for f in f_inp:
+            if f.name == node.name:
+                print map(lambda x: evaluate(x, inp, f_inp), node.inputs)
+                return f.function(map(lambda x: evaluate(x, inp, f_inp), node.inputs))
