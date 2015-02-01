@@ -6,6 +6,7 @@ class Node:
     
     def __init__(self, function, name, box):
         self.function = function
+        self.value = None
         self.name = name
         self.position = box[1]
         self.inputs = []
