@@ -9,7 +9,7 @@ def parseText(node, imgFile):
     
     img = cv2.imread(imgFile)
     img_grey = cv2.cvtColor(img[y:y+h, x:x+w], cv2.COLOR_BGR2GRAY)
-    _,img_bin = cv2.threshold(img_grey,100,255,cv2.THRESH_BINARY_INV)
+    _,img_bin = cv2.threshold(img_grey,100,255,cv2.THRESH_BINARY)
     cv2.imwrite('tmp.jpg', img_bin)
 
     print image_to_string(Image.open('tmp.jpg'), config=' -psm 10')
