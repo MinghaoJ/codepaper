@@ -1,9 +1,12 @@
 def seekInputNodes(node)
     inputNodes = []
+    inputNames = [A,B,C,D,E,F,G]
     if len(node.inputs) == 0:
         inputNodes.append(node)
     else:
         map(seekInputs, node.inputs)
+    for i in range(len(inputNodes)):
+        inputNodes[i].name = inputNames[i]
     return inputNodes
 
 def setInputs(inputs)
