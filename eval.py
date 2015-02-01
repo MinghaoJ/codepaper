@@ -1,6 +1,6 @@
 def evaluate(node):
     if len(node.inputs) == 0:
-        if !node.value
+        if not(node.value):
             self.value = input("Enter a value for " + node.name + " ")
         return self.value
     else:
