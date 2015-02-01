@@ -24,7 +24,7 @@ def upload_file():
         if file and allowed_file(file.filename):
             filename = secure_filename("image.jpg")
             print filename
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            file.save(os.path.join(path, filename))
             head = gp.makeGraph()
             nodes = eval.seekInputNodes(head)
             return render_template('input.html', val='value', nodes=nodes)
