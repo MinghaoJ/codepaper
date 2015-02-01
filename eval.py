@@ -25,9 +25,9 @@ def seekFunctionNodes(node):
         functionNodes = []
     functionNames = ['F','G','H','I','Y','Z']
     if len(node.inputs) == 0:
-        functionNodes.append(node)
         return
     else:
+        functionNodes.append(node)
         map(seekFunctionNodes, node.inputs)
     for i in range(len(functionNodes)):
         functionNodes[i].name = functionNames[i]
