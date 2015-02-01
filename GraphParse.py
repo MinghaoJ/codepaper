@@ -24,7 +24,6 @@ def addInputs(node):
     global edge_boxes
     global imgFile
     n = Node(None, '', node)
-    n.text = ocr.parseText(n, imgFile)
     n.inputs = map(addInputs, makeBranches(node))
     return n
     

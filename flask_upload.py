@@ -5,13 +5,13 @@ import GraphParse as gp
 import functions as fn
 import eval
 #from app import app
-
 path = os.getcwd()
 UPLOAD_FOLDER = path + '/uploads'
 ALLOWED_EXTENSIONS = set(['png', 'jpg','jpeg'])
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['PROPAGATE_EXCEPTIONS'] = True
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -24,21 +24,25 @@ def upload_file():
         if file and allowed_file(file.filename):
             filename = secure_filename("image.jpg")
             print filename
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            file.save(os.path.join(path, filename))
             head = gp.makeGraph()
             nodes = eval.seekInputNodes(head)
+            print nodes
             return render_template('input.html', val='value', nodes=nodes)
     return send_from_directory(path, 'static/index.html')
    
 @app.route('/input', methods=['GET', 'POST'])
 def input():
     head = gp.makeGraph()
+    eval.inputNodes = []
     nodes = eval.seekInputNodes(head)
-    input = []
+    inp = []
     for node in nodes:
-        input.append(request.form["input_" + node.name])
-    eval.setInputs(input, nodes)
-    return eval.evaluate(head)
+        if "input_" + node.name in request.form:
+            inp.append(request.form["input_" + node.name])
+    return eval.evaluate(head, eval.setInputs(inp))
+
+
 def uploaded_file(filename):
     return send_from_dictionary(app.config['UPLOAD_FOLDER'], filename)
 

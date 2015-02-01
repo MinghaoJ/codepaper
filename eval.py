@@ -1,22 +1,38 @@
 import numpy as np
 import cv2
 
-inputNodes = []
 def seekInputNodes(node):
+    global inputNodes
+    try:
+        inputNodes
+    except NameError:
+        inputNodes = []
+    inputNames = ['A','B','C','D','E','F','G']
     if len(node.inputs) == 0:
         inputNodes.append(node)
         return
     else:
-        for n in node.inputs:
-            seekInputNodes(n)
-        return inputNodes
+        map(seekInputNodes, node.inputs)
+    for i in range(len(inputNodes)):
+        inputNodes[i].name = inputNames[i]
+    return inputNodes
 
-def setInputs(inputs, inputsNodes):
+def setInputs(inputs):
+    global inputNodes
     for i in range(len(inputs)):
         inputNodes[i].value = inputs[i]
+    return inputNodes
 
-def evaluate(node):
+def evaluate(node, inp):
     if len(node.inputs) == 0:
-        return node.value
+        for n in inp:
+            if n.name == node.name:
+                return n.value
     else:
-        return node.function(map(evaluate, node.inputs))
+        return add(map(lambda x: evaluate(x, inp), node.inputs))
+
+def add(args):
+    if len(args) == 1:
+        return args[0] * -1
+    else:
+        return args[0] + args[1]
