@@ -1,12 +1,10 @@
-import cgitb
-cgitb.enable(format='text')
 import os
 from flask import Flask, request, redirect, url_for, send_from_directory, render_template
 from werkzeug import secure_filename
 import GraphParse as gp
 import functions as fn
 import eval
-#from app import app
+
 path = os.getcwd()
 UPLOAD_FOLDER = path + '/uploads'
 ALLOWED_EXTENSIONS = set(['png', 'jpg','jpeg'])
@@ -52,9 +50,7 @@ def input():
     for node in f_nodes:
         f_inp.append(request.form["input_" + node.name])
     a = eval.evaluate(head, eval.setInputs(inp), eval.setFunctions(f_inp))
-    print "hi"
     return str(a)
-
 
 def uploaded_file(filename):
     return send_from_dictionary(app.config['UPLOAD_FOLDER'], filename)
